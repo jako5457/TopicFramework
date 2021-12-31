@@ -15,7 +15,7 @@ namespace TopicFramework.Parsing
         {
             if (assembly == null)
             {
-                assembly = Assembly.GetExecutingAssembly();
+                assembly = Assembly.GetCallingAssembly();
             }
 
             List<Type> controllers = assembly.GetTypes()

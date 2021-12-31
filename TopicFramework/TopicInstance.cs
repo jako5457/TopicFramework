@@ -20,9 +20,9 @@ namespace TopicFramework
         /// <summary>
         /// Initializes instance and mapping of TopicControllers.
         /// </summary>
-        public void Initialize()
+        public void Initialize(Assembly? assembly = null)
         {
-            Controllers = TopicControllerMapper.Map();
+            Controllers = TopicControllerMapper.Map(assembly);
         }
 
         /// <summary>
@@ -51,6 +51,16 @@ namespace TopicFramework
         public void RemoveTopicEvent(string TopicName)
         {
             Events.RemoveAll(t => t.TopicName == TopicName);
+        }
+
+        /// <summary>
+        /// Gets a list of Topicevents for this topic
+        /// </summary>
+        /// <param name="TopicName">the specific name of the topic</param>
+        /// <returns></returns>
+        public List<TopicEvent> GetTopicEvents(string TopicName)
+        {
+            return Events.Where(te => te.TopicName == TopicName).ToList();
         }
     }
 }

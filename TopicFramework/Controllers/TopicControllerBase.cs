@@ -7,7 +7,7 @@ using TopicFramework.Common;
 
 namespace TopicFramework.Controllers
 {
-    internal class TopicControllerBase
+    public class TopicControllerBase
     {
         protected TopicInstance Instance;
         protected TopicMessage Message;
