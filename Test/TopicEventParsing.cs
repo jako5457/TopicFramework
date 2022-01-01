@@ -47,7 +47,7 @@ namespace Test
 
             TopicMessage message = new TopicMessage() { Payload = ExpectedMessage, Topic = "Test", };
 
-            topicInstance.ParseTopic(message);
+            topicInstance.ParseTopicAsync(message);
         }
     }
 }
