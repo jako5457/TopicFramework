@@ -25,6 +25,7 @@ namespace Test
             topicInstance.ParseTopicAsync(new TopicMessage() { Payload = "Hello", Topic = "Test/Hello" });
 
             Assert.IsTrue(TestController.Trigger);
+            Assert.IsFalse(TestController.Trigger2);
         }
 
     }
@@ -36,12 +37,23 @@ namespace Test
 
         public static bool Trigger = false;
 
+        public static bool Trigger2 = false;
+
         [TopicHandler("Hello")]
         public void TestTopicHandler()
         {
             if (Message.Payload == "Hello")
             {
                 Trigger = true;
+            }
+        }
+
+        [TopicHandler("World")]
+        public void TestTopicHandler2()
+        {
+            if (Message.Payload == "Hello")
+            {
+                Trigger2 = true;
             }
         }
     }

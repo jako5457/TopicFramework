@@ -10,10 +10,10 @@ namespace TopicFramework
 {
     public static class TopicFramworkExtensions
     {
-        public static IServiceCollection AddTopicFrameWork(this IServiceCollection colletion)
+        public static IServiceCollection AddTopicFrameWork(this IServiceCollection colletion,Assembly assembly = null)
         {
             TopicInstance topicInstance = new TopicInstance();
-            topicInstance.Initialize(Assembly.GetExecutingAssembly());
+            topicInstance.Initialize(assembly);
             colletion.AddSingleton<TopicInstance>(_ => topicInstance);
             return colletion;
         }

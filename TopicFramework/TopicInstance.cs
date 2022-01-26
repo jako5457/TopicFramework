@@ -18,11 +18,27 @@ namespace TopicFramework
         private List<TopicControllerEntry> Controllers = new();
 
         /// <summary>
+        /// Triggers every time SendAsync is called
+        /// </summary>
+        public event EventHandler<TopicMessage> MessageOutEvent;
+
+        /// <summary>
         /// Initializes instance and mapping of TopicControllers.
         /// </summary>
         public void Initialize(Assembly? assembly = null)
         {
             Controllers = TopicControllerMapper.Map(assembly);
+        }
+
+        /// <summary>
+        /// Sends message out to all connected brokers
+        /// </summary>
+        /// <param name="message">the message to be sent</param>
+        /// <returns>Completed task</returns>
+        public Task SendAsync(TopicMessage message)
+        {
+            MessageOutEvent?.Invoke(this, message);
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -39,6 +55,9 @@ namespace TopicFramework
 
             List<TopicControllerEntry> topicControllers = new();
 
+            string StartTopic = "";
+            string EndTopic = "";
+
             //Populates Handlers
             if (message.Topic.StartsWith("#/"))
             {
@@ -51,8 +70,8 @@ namespace TopicFramework
             else
             {
                 string[] Topics = message.Topic.Split("/");
-                string StartTopic = Topics.FirstOrDefault("");
-                string EndTopic = string.Join("/",Topics.Skip(1));
+                StartTopic = Topics.FirstOrDefault("");
+                EndTopic = string.Join("/",Topics.Skip(1));
 
                 topicControllers = Controllers
                                     .Where(c => c.ControllerAttribute.Endpoint == StartTopic)
@@ -63,7 +82,7 @@ namespace TopicFramework
             //Finds and executes handlers one by one
             foreach (TopicControllerEntry controllerEntry in topicControllers)
             {
-                foreach (TopicHandlerEntry handlerEntry in controllerEntry.Handlers)
+                foreach (TopicHandlerEntry handlerEntry in controllerEntry.Handlers.Where(h => h.HandlerAttribute.Route == EndTopic))
                 {   
                     try
                     {
