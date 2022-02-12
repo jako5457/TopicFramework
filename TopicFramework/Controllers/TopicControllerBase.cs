@@ -7,6 +7,9 @@ using TopicFramework.Common;
 
 namespace TopicFramework.Controllers
 {
+    /// <summary>
+    /// A base class for topiccontrollers
+    /// </summary>
     public class TopicControllerBase
     {
         protected TopicInstance Instance;

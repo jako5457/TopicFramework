@@ -14,7 +14,7 @@ namespace TopicFramework.Common
         public int Qos { get; set; }
 
         /// <summary>
-        /// The topic the message goes to.
+        /// The topic the message goes to or from.
         /// </summary>
         public string Topic { get; set; }
 

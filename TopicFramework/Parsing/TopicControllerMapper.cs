@@ -11,6 +11,11 @@ namespace TopicFramework.Parsing
 {
     internal static class TopicControllerMapper
     {
+        /// <summary>
+        /// Maps all TopicControllers in the assembly
+        /// </summary>
+        /// <param name="assembly">Lists of all topicControlllers in the assembly</param>
+        /// <returns></returns>
         public static List<TopicControllerEntry> Map(Assembly? assembly = null)
         {
             if (assembly == null)
