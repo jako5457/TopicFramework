@@ -33,7 +33,7 @@ namespace RabbitMqExample.TopicControllers
 
             var message = new TopicMessage()
                                 .WithTopic("waetherresponse")
-                                .WithJsonPayload(forecast);
+                                .WithJsonPayload<WeatherForecast>(forecast);
 
             await Instance.SendAsync(message);
         }

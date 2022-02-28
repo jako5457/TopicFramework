@@ -43,9 +43,9 @@ namespace TopicFramework.Common
         /// <param name="message"></param>
         /// <param name="obj">Object to serialized into the message</param>
         /// <returns></returns>
-        public static TopicMessage WithJsonPayload<T>(this TopicMessage message, object obj)
+        public static TopicMessage WithJsonPayload<T>(this TopicMessage message, T obj)
         {
-            message.Payload = JsonSerializer.Serialize(obj,typeof(T));
+            message.Payload = JsonSerializer.Serialize<T>(obj);
             return message;
         }
 
