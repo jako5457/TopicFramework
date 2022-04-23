@@ -8,50 +8,70 @@ using TopicFramework;
 using RabbitMQ.Client;
 using enc = System.Text.Encoding;
 using RabbitMQ.Client.Events;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace TopicFramework.RabbitMQ
 {
-    public class TfRabbitmqService : ITfRabbitmqService
+    public class TfRabbitmqService : IHostedService, IDisposable
     {
-        public static bool HasMqtt { get; set; }
+        public static bool MqttMode { get; set; } = false;
+        public static bool MessageDebug { get; set; } = false;
 
-        private const string QueueName = "TopicFrameworkQueue";
+        private const string _QueueName = "TopicFrameworkQueue";
+        
+        private readonly ILogger _Logger;
+        private readonly TopicInstance _TopicInstance = default!;
+        IConnection _Connection = default!;
+        EventingBasicConsumer _Consumer = default!;
 
-        private readonly TopicInstance _topicInstance;
-        IConnection _connection;
-        EventingBasicConsumer _consumer;
-
-        public TfRabbitmqService(TopicInstance topicInstance,ConnectionFactory factory)
+        public TfRabbitmqService(ILogger<TfRabbitmqService> logger,TopicInstance topicInstance,ConnectionFactory factory)
         {
-            _topicInstance = topicInstance;
-            _connection = factory.CreateConnection();
-
-            _topicInstance.MessageOutEvent += _topicInstance_MessageOutEvent;
-
-            SetupConsumer();
+            _TopicInstance = topicInstance;
+            _Connection = factory.CreateConnection();
+            _Logger = logger;
+            _TopicInstance.MessageOutEvent += _topicInstance_MessageOutEvent;
         }
 
-        private void SetupConsumer()
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            var model = _connection.CreateModel();
+            _Logger.LogInformation("Connecting to Broker.");
+            var model = _Connection.CreateModel();
+            _Logger.LogInformation("Connected to Boker.");
 
-            model.QueueDeclare(QueueName);
+            _Logger.LogInformation($"Creating Queue: {_QueueName}");
+            model.QueueDeclare(_QueueName);
+            _Logger.LogInformation($"Queue created.");
 
-            if (HasMqtt)
+            if (MqttMode)
             {
-                model.QueueBind(QueueName,"amq.topic","#");
+                _Logger.LogInformation("Binding to Mqtt exchange.");
+                model.QueueBind(_QueueName, "amq.topic", "#");
             }
 
-            _consumer = new EventingBasicConsumer(model);
+            _Consumer = new EventingBasicConsumer(model);
 
-            _consumer.Received += _consumer_Received;
+            _Consumer.Received += _consumer_Received;
 
-            model.BasicConsume(QueueName, true, _consumer);
+            model.BasicConsume(_QueueName, true, _Consumer);
+            _Logger.LogInformation("Amqp service is running.");
+            return Task.CompletedTask;
+        }
 
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _Connection.Close();
+            return Task.CompletedTask;
         }
 
         private async void _consumer_Received(object? sender, BasicDeliverEventArgs e)
         {
+
+            if (MessageDebug)
+            {
+                _Logger.LogInformation($"From: {e.RoutingKey} - {enc.UTF8.GetString(e.Body.ToArray())}");
+            }
+
             TopicMessage message = new TopicMessage()
             {
                 Payload = enc.UTF8.GetString(e.Body.ToArray()),
@@ -59,19 +79,26 @@ namespace TopicFramework.RabbitMQ
                 Qos = 2
             };
 
-            await _topicInstance.ParseTopicAsync(message);
+            await _TopicInstance.ParseTopicAsync(message);
         }
 
         private void _topicInstance_MessageOutEvent(object? sender, TopicMessage e)
         {
-            var channel = _connection.CreateModel();
+            var channel = _Connection.CreateModel();
 
             var data = enc.UTF8.GetBytes(e.Payload);
 
-            if (HasMqtt)
+            if (MqttMode)
             {
                 channel.BasicPublish("amq.topic", e.Topic.Replace("/", "."), null, data);
             }
         }
+
+        public void Dispose()
+        {
+            _Connection.Dispose();
+        }
+
+        
     }
 }

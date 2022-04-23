@@ -31,6 +31,16 @@ namespace TopicFramework
         }
 
         /// <summary>
+        /// Initializes instance and mapping of TopicControllers.
+        /// Will also define TopicEvents
+        /// </summary>
+        public void Initialize(Assembly? assembly, Action<List<TopicEvent>> action)
+        {
+            Controllers = TopicControllerMapper.Map(assembly);
+            action(Events);
+        }
+
+        /// <summary>
         /// Sends message out to all connected brokers
         /// </summary>
         /// <param name="message">the message to be sent</param>

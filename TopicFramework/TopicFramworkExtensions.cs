@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TopicFramework.Events;
 
 namespace TopicFramework
 {
@@ -14,6 +15,14 @@ namespace TopicFramework
         {
             TopicInstance topicInstance = new TopicInstance();
             topicInstance.Initialize(assembly);
+            colletion.AddSingleton<TopicInstance>(_ => topicInstance);
+            return colletion;
+        }
+
+        public static IServiceCollection AddTopicFrameWork(this IServiceCollection colletion,Assembly assembly, Action<List<TopicEvent>> action)
+        {
+            TopicInstance topicInstance = new TopicInstance();
+            topicInstance.Initialize(assembly,action);
             colletion.AddSingleton<TopicInstance>(_ => topicInstance);
             return colletion;
         }

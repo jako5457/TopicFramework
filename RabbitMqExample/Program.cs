@@ -1,5 +1,6 @@
 using System.Reflection;
 using TopicFramework;
+using TopicFramework.Events;
 using TopicFramework.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,8 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddTopicFrameWork(Assembly.GetEntryAssembly());
-builder.Services.AddConnectionFactory(cf =>
+builder.Services.AddTopicFrameWork(Assembly.GetEntryAssembly(), te =>
+{
+    te.Add(new TopicEvent("hi", msg => Console.WriteLine(msg.Payload)));
+});
+
+builder.Services.AddTfRabbitConnectionFactory(cf =>
 {
     //Default Creddentials for rabbitmq
     cf.HostName = "localhost";
@@ -16,7 +21,13 @@ builder.Services.AddConnectionFactory(cf =>
     cf.Password = "guest";
 });
 
-TfRabbitmqService.HasMqtt = true;
+TfRabbitmqService.MqttMode = true;
+
+if (builder.Environment.IsDevelopment())
+{
+    TfRabbitmqService.MessageDebug = true;
+}
+
 builder.Services.AddTfRabbit();
 
 var app = builder.Build();
@@ -25,7 +36,5 @@ var app = builder.Build();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.StartTfRabbit();
 
 app.Run();

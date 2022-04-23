@@ -14,21 +14,16 @@ namespace TopicFramework.RabbitMQ
         
         public static IServiceCollection AddTfRabbit(this IServiceCollection services)
         {
-            services.AddSingleton<ITfRabbitmqService, TfRabbitmqService>();
+            services.AddHostedService<TfRabbitmqService>();
             return services;
         }
 
-        public static IServiceCollection AddConnectionFactory(this IServiceCollection services,Action<ConnectionFactory> action)
+        public static IServiceCollection AddTfRabbitConnectionFactory(this IServiceCollection services,Action<ConnectionFactory> action)
         {
             var service = new ConnectionFactory();
             action(service);
             services.AddSingleton<ConnectionFactory>(service);
             return services;
-        }
-
-        public static void StartTfRabbit(this IApplicationBuilder builder)
-        {
-            builder.ApplicationServices.GetRequiredService<ITfRabbitmqService>();
         }
     }
 }
