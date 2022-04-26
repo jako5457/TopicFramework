@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Test
@@ -12,7 +13,9 @@ namespace Test
         {
             TopicInstance topicInstance = new TopicInstance();
 
-            topicInstance.Initialize(Assembly.GetExecutingAssembly());
+            ServiceCollection serviceCollection = new ServiceCollection();
+
+            topicInstance.Initialize(serviceCollection.BuildServiceProvider(),Assembly.GetExecutingAssembly());
         }
 
         [TestMethod]
@@ -20,7 +23,9 @@ namespace Test
         {
             TopicInstance topicInstance = new TopicInstance();
 
-            topicInstance.Initialize(Assembly.GetExecutingAssembly());
+            ServiceCollection serviceCollection = new ServiceCollection();
+
+            topicInstance.Initialize(serviceCollection.BuildServiceProvider(), Assembly.GetExecutingAssembly());
 
             topicInstance.ParseTopicAsync(new TopicMessage() { Payload = "Hello", Topic = "Test/Hello" });
 
@@ -38,6 +43,10 @@ namespace Test
         public static bool Trigger = false;
 
         public static bool Trigger2 = false;
+
+        public override void OnInitialize(IServiceProvider serviceProvider)
+        {
+        }
 
         [TopicHandler("Hello")]
         public void TestTopicHandler()

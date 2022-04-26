@@ -10,10 +10,12 @@ namespace TopicFramework.Controllers
     /// <summary>
     /// A base class for topiccontrollers
     /// </summary>
-    public class TopicControllerBase
+    public abstract class TopicControllerBase
     {
         protected TopicInstance Instance;
         protected TopicMessage Message;
+
+        public abstract void OnInitialize(IServiceProvider serviceProvider); 
 
         public void SetInstance(TopicInstance instance, TopicMessage message)
         {

@@ -11,6 +11,12 @@ namespace RabbitMqExample.TopicControllers
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
+        private ILogger<HelloTopicController> _Logger = default!;
+
+        public override void OnInitialize(IServiceProvider serviceProvider)
+        {
+            _Logger = serviceProvider.GetRequiredService<ILogger<HelloTopicController>>();
+        }
 
         [TopicHandler("world")]
         public async void HelloWorld()
@@ -38,5 +44,6 @@ namespace RabbitMqExample.TopicControllers
             await Instance.SendAsync(message);
         }
 
+        
     }
 }

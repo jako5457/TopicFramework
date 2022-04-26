@@ -14,15 +14,15 @@ namespace TopicFramework
         public static IServiceCollection AddTopicFrameWork(this IServiceCollection colletion,Assembly assembly = null)
         {
             TopicInstance topicInstance = new TopicInstance();
-            topicInstance.Initialize(assembly);
+            topicInstance.Initialize(colletion.BuildServiceProvider(), assembly);
             colletion.AddSingleton<TopicInstance>(_ => topicInstance);
             return colletion;
         }
 
-        public static IServiceCollection AddTopicFrameWork(this IServiceCollection colletion,Assembly assembly, Action<List<TopicEvent>> action)
+        public static IServiceCollection AddTopicFrameWork(this IServiceCollection colletion, Assembly assembly, Action<List<TopicEvent>> action)
         {
             TopicInstance topicInstance = new TopicInstance();
-            topicInstance.Initialize(assembly,action);
+            topicInstance.Initialize(assembly,colletion.BuildServiceProvider(),action);
             colletion.AddSingleton<TopicInstance>(_ => topicInstance);
             return colletion;
         }

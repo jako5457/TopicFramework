@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,6 +18,8 @@ namespace TopicFramework
         private List<TopicEvent> Events = new();
         private List<TopicControllerEntry> Controllers = new();
 
+        private IServiceProvider _ServiceProvider = default!;
+
         /// <summary>
         /// Triggers every time SendAsync is called
         /// </summary>
@@ -25,19 +28,21 @@ namespace TopicFramework
         /// <summary>
         /// Initializes instance and mapping of TopicControllers.
         /// </summary>
-        public void Initialize(Assembly? assembly = null)
+        public void Initialize(IServiceProvider serviceProvider, Assembly? assembly = null)
         {
             Controllers = TopicControllerMapper.Map(assembly);
+            _ServiceProvider = serviceProvider;
         }
 
         /// <summary>
         /// Initializes instance and mapping of TopicControllers.
         /// Will also define TopicEvents
         /// </summary>
-        public void Initialize(Assembly? assembly, Action<List<TopicEvent>> action)
+        public void Initialize(Assembly? assembly,IServiceProvider serviceProvider,Action<List<TopicEvent>> action)
         {
             Controllers = TopicControllerMapper.Map(assembly);
             action(Events);
+            _ServiceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -99,6 +104,7 @@ namespace TopicFramework
                         MethodInfo methodInfo = controllerEntry.Type.GetMethod(handlerEntry.MethodName);
                         TopicControllerBase controller = Activator.CreateInstance(controllerEntry.Type) as TopicControllerBase;
                         controller.SetInstance(this, message);
+                        controller.OnInitialize(_ServiceProvider.CreateScope().ServiceProvider);
                         methodInfo.Invoke(controller, new object[0]);
                     }
                     catch (Exception)

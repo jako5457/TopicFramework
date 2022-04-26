@@ -8,10 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddTopicFrameWork(Assembly.GetEntryAssembly(), te =>
-{
-    te.Add(new TopicEvent("hi", msg => Console.WriteLine(msg.Payload)));
-});
 
 builder.Services.AddTfRabbitConnectionFactory(cf =>
 {
@@ -19,6 +15,11 @@ builder.Services.AddTfRabbitConnectionFactory(cf =>
     cf.HostName = "localhost";
     cf.UserName = "guest";
     cf.Password = "guest";
+});
+
+builder.Services.AddTopicFrameWork(Assembly.GetEntryAssembly(), te =>
+{
+    te.Add(new TopicEvent("hi", msg => Console.WriteLine(msg.Payload)));
 });
 
 TfRabbitmqService.MqttMode = true;
