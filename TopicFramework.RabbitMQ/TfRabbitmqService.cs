@@ -23,6 +23,7 @@ namespace TopicFramework.RabbitMQ
         private readonly ILogger _Logger;
         private readonly TopicInstance _TopicInstance = default!;
         IConnection _Connection = default!;
+        IModel _Model = default!;
         EventingBasicConsumer _Consumer = default!;
 
         public TfRabbitmqService(ILogger<TfRabbitmqService> logger,TopicInstance topicInstance,ConnectionFactory factory)
@@ -35,26 +36,42 @@ namespace TopicFramework.RabbitMQ
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _Logger.LogInformation("Connecting to Broker.");
-            var model = _Connection.CreateModel();
+            
+            bool NotConnexted = true;
+            do
+            {
+                try
+                {
+                    _Logger.LogInformation("Connecting to Broker.");
+                    _Model = _Connection.CreateModel();
+                    NotConnexted = false;
+                }
+                catch (Exception e)
+                {
+                    _Logger.LogWarning("Cant connect to broker. Retrying....");
+                    _Logger.LogWarning(e.Message);
+                }
+            } while (NotConnexted);
+
             _Logger.LogInformation("Connected to Boker.");
 
             _Logger.LogInformation($"Creating Queue: {_QueueName}");
-            model.QueueDeclare(_QueueName);
+            _Model.QueueDeclare(_QueueName);
             _Logger.LogInformation($"Queue created.");
 
             if (MqttMode)
             {
                 _Logger.LogInformation("Binding to Mqtt exchange.");
-                model.QueueBind(_QueueName, "amq.topic", "#");
+                _Model.QueueBind(_QueueName, "amq.topic", "#");
             }
 
-            _Consumer = new EventingBasicConsumer(model);
+            _Consumer = new EventingBasicConsumer(_Model);
 
             _Consumer.Received += _consumer_Received;
-
-            model.BasicConsume(_QueueName, true, _Consumer);
+            
+            _Model.BasicConsume(_QueueName, true, _Consumer);
             _Logger.LogInformation("Amqp service is running.");
+
             return Task.CompletedTask;
         }
 
