@@ -37,16 +37,29 @@ namespace TopicFramework.Parsing
                                     .Where(m => m.GetCustomAttribute<TopicHandler>() != null)
                                     .ToList();
 
+                var Constructor = type
+                                    .GetConstructors()
+                                    .Where(c => c.IsPublic)
+                                    .FirstOrDefault();
+
+                List<Type> Params = new List<Type>();
+
+                if (Constructor != null)
+                {
+                    var parameters = Constructor.GetParameters();
+                    foreach (var param in parameters)
+                        Params.Add(param.ParameterType);
+                }
+
                 List<TopicHandlerEntry> TopicHandlers = new List<TopicHandlerEntry>();
 
                 foreach (var method in methods)
                 {
                     TopicHandler topicHandlerAttrib = method.GetCustomAttribute<TopicHandler>();
-
                     TopicHandlers.Add(new TopicHandlerEntry(topicHandlerAttrib, method.Name));
                 }
 
-                Entries.Add(new TopicControllerEntry(topicControllerAttib, type, TopicHandlers));
+                Entries.Add(new TopicControllerEntry(topicControllerAttib, type, TopicHandlers,Params));
             }
 
             return Entries;

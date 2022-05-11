@@ -15,8 +15,6 @@ namespace TopicFramework.Controllers
         protected TopicInstance Instance;
         protected TopicMessage Message;
 
-        public abstract void OnInitialize(IServiceProvider serviceProvider); 
-
         public void SetInstance(TopicInstance instance, TopicMessage message)
         {
             Instance = instance;

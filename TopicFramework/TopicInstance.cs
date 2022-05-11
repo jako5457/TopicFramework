@@ -97,14 +97,24 @@ namespace TopicFramework
             //Finds and executes handlers one by one
             foreach (TopicControllerEntry controllerEntry in topicControllers)
             {
+
+                var scope = _ServiceProvider.CreateScope();
+
+                List<object> Params = new List<object>();
+
+                foreach (var p in controllerEntry.Parameters)
+                {
+                    Params.Add(scope.ServiceProvider.GetRequiredService(p));
+                }
+
                 foreach (TopicHandlerEntry handlerEntry in controllerEntry.Handlers.Where(h => h.HandlerAttribute.Route == EndTopic))
                 {   
                     try
                     {
                         MethodInfo methodInfo = controllerEntry.Type.GetMethod(handlerEntry.MethodName);
-                        TopicControllerBase controller = Activator.CreateInstance(controllerEntry.Type) as TopicControllerBase;
+                        TopicControllerBase controller = Activator.CreateInstance(controllerEntry.Type,Params.ToArray()) as TopicControllerBase;
                         controller.SetInstance(this, message);
-                        controller.OnInitialize(_ServiceProvider.CreateScope().ServiceProvider);
+
                         methodInfo.Invoke(controller, new object[0]);
                     }
                     catch (Exception)

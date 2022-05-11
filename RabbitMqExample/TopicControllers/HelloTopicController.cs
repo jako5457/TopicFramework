@@ -13,9 +13,9 @@ namespace RabbitMqExample.TopicControllers
         };
         private ILogger<HelloTopicController> _Logger = default!;
 
-        public override void OnInitialize(IServiceProvider serviceProvider)
+        public HelloTopicController(ILogger<HelloTopicController> logger)
         {
-            _Logger = serviceProvider.GetRequiredService<ILogger<HelloTopicController>>();
+            _Logger = logger;
         }
 
         [TopicHandler("world")]
@@ -43,7 +43,6 @@ namespace RabbitMqExample.TopicControllers
 
             await Instance.SendAsync(message);
         }
-
-        
+  
     }
 }
