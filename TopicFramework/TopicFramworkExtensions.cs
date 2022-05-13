@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TopicFramework.Events;
+using Microsoft.AspNetCore.Builder;
 
 namespace TopicFramework
 {
@@ -22,9 +23,21 @@ namespace TopicFramework
         public static IServiceCollection AddTopicFrameWork(this IServiceCollection colletion, Assembly assembly, Action<List<TopicEvent>> action)
         {
             TopicInstance topicInstance = new TopicInstance();
-            topicInstance.Initialize(assembly,colletion.BuildServiceProvider(),action);
+            topicInstance.Initialize(assembly,action);
             colletion.AddSingleton<TopicInstance>(_ => topicInstance);
             return colletion;
+        }
+
+        public static WebApplication? UseTopicFramework(this WebApplication? application)
+        {
+            var instance = application.Services.GetRequiredService<TopicInstance>();
+
+            if (instance == null)
+                throw new InvalidOperationException("Sevice not loaded. Use AddTopicFramework() to load");
+
+            instance.LoadServiceProvider(application.Services);
+
+            return application;
         }
     }
 }

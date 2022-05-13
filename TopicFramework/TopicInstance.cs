@@ -38,10 +38,18 @@ namespace TopicFramework
         /// Initializes instance and mapping of TopicControllers.
         /// Will also define TopicEvents
         /// </summary>
-        public void Initialize(Assembly? assembly,IServiceProvider serviceProvider,Action<List<TopicEvent>> action)
+        internal void Initialize(Assembly? assembly,Action<List<TopicEvent>> action)
         {
             Controllers = TopicControllerMapper.Map(assembly);
             action(Events);
+        }
+
+        /// <summary>
+        /// Loads ServiceProvider before startup of services
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        internal void LoadServiceProvider(IServiceProvider serviceProvider)
+        {
             _ServiceProvider = serviceProvider;
         }
 
@@ -63,6 +71,12 @@ namespace TopicFramework
         /// <returns></returns>
         public Task ParseTopicAsync(TopicMessage message)
         {
+
+            if (_ServiceProvider == default!)
+            {
+                throw new InvalidOperationException("Sevice not loaded. Use UseTopicFramework() to load");
+            }
+
             //Getting Relevant topicEvents
             List<TopicEvent> events = Events
                                         .Where(e => e.TopicName == message.Topic)

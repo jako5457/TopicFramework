@@ -33,6 +33,8 @@ builder.Services.AddTfRabbit();
 
 var app = builder.Build();
 
+app.UseTopicFramework();
+
 // Configure the HTTP request pipeline.
 app.UseAuthorization();
 
