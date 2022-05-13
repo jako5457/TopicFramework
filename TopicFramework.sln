@@ -18,7 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMqExample", "RabbitMqExample\RabbitMqExample.csproj", "{F14B291F-CFE9-4BFB-86EF-30E3A3BCBA99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqExample", "RabbitMqExample\RabbitMqExample.csproj", "{F14B291F-CFE9-4BFB-86EF-30E3A3BCBA99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopicFramework.Mqtt", "TopicFramework.Mqtt\TopicFramework.Mqtt.csproj", "{DA6D6874-5637-4E82-AE80-2E26B20709B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{F14B291F-CFE9-4BFB-86EF-30E3A3BCBA99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F14B291F-CFE9-4BFB-86EF-30E3A3BCBA99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F14B291F-CFE9-4BFB-86EF-30E3A3BCBA99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA6D6874-5637-4E82-AE80-2E26B20709B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA6D6874-5637-4E82-AE80-2E26B20709B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA6D6874-5637-4E82-AE80-2E26B20709B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA6D6874-5637-4E82-AE80-2E26B20709B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{648C6055-9B05-4938-91C3-0AE810C31E6A} = {1741B4AB-2C24-4E13-AEB9-7FACBEF21697}
 		{F14B291F-CFE9-4BFB-86EF-30E3A3BCBA99} = {0FB325FB-DA12-4A82-A5CC-1CDC54640390}
+		{DA6D6874-5637-4E82-AE80-2E26B20709B7} = {1741B4AB-2C24-4E13-AEB9-7FACBEF21697}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {54ABA3AF-2755-4B14-A984-12AC40DDB17A}

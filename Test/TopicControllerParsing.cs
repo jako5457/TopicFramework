@@ -44,10 +44,6 @@ namespace Test
 
         public static bool Trigger2 = false;
 
-        public override void OnInitialize(IServiceProvider serviceProvider)
-        {
-        }
-
         [TopicHandler("Hello")]
         public void TestTopicHandler()
         {

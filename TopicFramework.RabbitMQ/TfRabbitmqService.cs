@@ -93,7 +93,8 @@ namespace TopicFramework.RabbitMQ
             {
                 Payload = enc.UTF8.GetString(e.Body.ToArray()),
                 Topic = e.RoutingKey.Replace(".", "/"),
-                Qos = 2
+                Qos = e.BasicProperties.DeliveryMode,
+                PayloadContentType = e.BasicProperties.ContentType
             };
 
             await _TopicInstance.ParseTopicAsync(message);

@@ -19,5 +19,8 @@ namespace TopicFramework.Common
         public string Topic { get; set; }
 
         public string Payload { get; set; }
+
+        public string PayloadContentType { get; set; }
+
     }
 }
