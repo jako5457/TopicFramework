@@ -37,7 +37,7 @@ namespace TopicFramework.Mqtt.Broker
             _BuildAction(configbuilder);
 
             //define events
-            _Server.UseApplicationMessageReceivedHandler(new MqttBrokerHandler(_TopicInstance));
+            _Server.UseApplicationMessageReceivedHandler(new MqttBrokerHandler(_TopicInstance,_Logger));
             _TopicInstance.MessageOutEvent += _TopicInstance_MessageOutEvent;
 
             //Start
