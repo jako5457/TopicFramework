@@ -13,7 +13,7 @@ Console.WriteLine("Starting Mqtt broker.....");
 
 IConfiguration config = new ConfigurationBuilder()
                         .AddEnvironmentVariables()
-                        .AddJsonFile("appsettings.json")
+                        //.AddJsonFile("appsettings.json")
                         .AddUserSecrets<Program>()
                         .Build();
 
@@ -34,7 +34,7 @@ hostBuilder.ConfigureServices(services =>
     services.AddTfMqttClientService(options =>
     {
         options.WithClientId("TopicFrameworkClient");
-        options.WithTcpServer("test.mosquitto.org", 1883);
+        options.WithTcpServer("localhost", 1883);
     });
 });
 

@@ -22,4 +22,10 @@
     <ProjectReference Include="..\TopicFramework.Mqtt\TopicFramework.Mqtt.csproj" />
     <ProjectReference Include="..\TopicFramework\TopicFramework.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
