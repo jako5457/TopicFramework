@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopicFramework.Mqtt", "Topi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MqttBrokerStandaloneExample", "MqttBrokerStandaloneExsample\MqttBrokerStandaloneExample.csproj", "{F30F1904-87B8-4F28-9F54-5A5EA8C327E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MqttClientStandaloneExample", "MqttClientStandaloneExample\MqttClientStandaloneExample.csproj", "{86EB7121-5B2F-4832-A706-B95A55E537CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{F30F1904-87B8-4F28-9F54-5A5EA8C327E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F30F1904-87B8-4F28-9F54-5A5EA8C327E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F30F1904-87B8-4F28-9F54-5A5EA8C327E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86EB7121-5B2F-4832-A706-B95A55E537CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86EB7121-5B2F-4832-A706-B95A55E537CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86EB7121-5B2F-4832-A706-B95A55E537CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86EB7121-5B2F-4832-A706-B95A55E537CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +69,7 @@ Global
 		{F14B291F-CFE9-4BFB-86EF-30E3A3BCBA99} = {0FB325FB-DA12-4A82-A5CC-1CDC54640390}
 		{DA6D6874-5637-4E82-AE80-2E26B20709B7} = {1741B4AB-2C24-4E13-AEB9-7FACBEF21697}
 		{F30F1904-87B8-4F28-9F54-5A5EA8C327E2} = {0FB325FB-DA12-4A82-A5CC-1CDC54640390}
+		{86EB7121-5B2F-4832-A706-B95A55E537CC} = {0FB325FB-DA12-4A82-A5CC-1CDC54640390}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {54ABA3AF-2755-4B14-A984-12AC40DDB17A}

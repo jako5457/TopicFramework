@@ -30,15 +30,18 @@ namespace TopicFramework.Mqtt
             return serviceCollection;
         }
 
-        //public static IServiceCollection AddTfMqttBrokerService(this IServiceCollection serviceCollection, Action<MqttClientOptionsBuilder> action)
-        //{
-        //    serviceCollection.AddHostedService<MqttClientService>(p =>
-        //    {
-        //        new MqttClientService();
-        //    });
-        //    return serviceCollection;
-        //}
-
+        public static IServiceCollection AddTfMqttClientService(this IServiceCollection serviceCollection, Action<MqttClientOptionsBuilder> action)
+        {
+            serviceCollection.AddHostedService<MqttClientService>(p =>
+            {
+              return new MqttClientService(
+                                p.GetRequiredService<ILogger<MqttClientService>>(),
+                                p.GetRequiredService<TopicInstance>(),
+                                p.GetRequiredService<MqttFactory>(),
+                                action);
+            });
+            return serviceCollection;
+        }
 
     }
 }
