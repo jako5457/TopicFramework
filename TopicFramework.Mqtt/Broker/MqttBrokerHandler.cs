@@ -34,7 +34,7 @@ namespace TopicFramework.Mqtt.Broker
 
             if (MqttServiceSettings.DebugLog)
             {
-                _Logger.LogDebug($"@@DebugLog@@ \n Topic: {eventArgs.ApplicationMessage.Topic} \n QOS: {(int)eventArgs.ApplicationMessage.QualityOfServiceLevel} ({Enum.GetName<MqttQualityOfServiceLevel>(eventArgs.ApplicationMessage.QualityOfServiceLevel)}) \n ##Payload \n {eventArgs.ApplicationMessage.ConvertPayloadToString()} ##Payload \n @@DebugLog@@");
+                _Logger.LogInformation($"\n@@DebugLog@@ \nTopic: {eventArgs.ApplicationMessage.Topic} \nQOS: {(int)eventArgs.ApplicationMessage.QualityOfServiceLevel} ({Enum.GetName<MqttQualityOfServiceLevel>(eventArgs.ApplicationMessage.QualityOfServiceLevel)}) \n##Payload \n {eventArgs.ApplicationMessage.ConvertPayloadToString()} \n##Payload \n@@DebugLog@@\n");
             }
 
             await _TopicInstance.ParseTopicAsync(message);

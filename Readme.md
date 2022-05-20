@@ -12,5 +12,5 @@ Topic framework is a way to handle requests for applications that needs a integr
 
 ### Extensions
 - TopicFrameWork.RabbitMQ _(AMQP Protolcol using the offical rabbitMq library)_
-- TopicFramework.MQTT _(MQTT)_ __- (Coming soon)__
+- TopicFramework.MQTT _(MQTT Broker and client With MQTTnet)_
 

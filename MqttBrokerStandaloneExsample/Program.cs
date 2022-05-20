@@ -26,7 +26,11 @@ hostBuilder.ConfigureLogging((context, builder) => builder.AddConsole());
 hostBuilder.ConfigureServices(services =>
 {
     services.AddSingleton<MqttFactory>();
-    services.AddTopicFrameWork(Assembly.GetEntryAssembly());
+    services.AddTopicFrameWork(Assembly.GetEntryAssembly(),events =>
+    {
+        events.Add(new TopicEvent("Hello", msg => Console.WriteLine("Message: " + msg.Payload)));
+    });
+
     services.AddTfMqttBrokerService(options =>
     {
         options.WithDefaultEndpointPort(1883);

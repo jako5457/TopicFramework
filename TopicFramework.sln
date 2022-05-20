@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopicFramework", "TopicFram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{0F270790-DB9F-45C6-B187-CB00D5FD15DC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exsamples", "Exsamples", "{0FB325FB-DA12-4A82-A5CC-1CDC54640390}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0FB325FB-DA12-4A82-A5CC-1CDC54640390}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{1741B4AB-2C24-4E13-AEB9-7FACBEF21697}"
 EndProject
@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqExample", "RabbitMq
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopicFramework.Mqtt", "TopicFramework.Mqtt\TopicFramework.Mqtt.csproj", "{DA6D6874-5637-4E82-AE80-2E26B20709B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MqttBrokerStandaloneExsample", "MqttBrokerStandaloneExsample\MqttBrokerStandaloneExsample.csproj", "{F30F1904-87B8-4F28-9F54-5A5EA8C327E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MqttBrokerStandaloneExample", "MqttBrokerStandaloneExsample\MqttBrokerStandaloneExample.csproj", "{F30F1904-87B8-4F28-9F54-5A5EA8C327E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

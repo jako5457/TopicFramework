@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Server;
+using MQTTnet.Client.Options;
+using TopicFramework.Mqtt.Client;
 
 namespace TopicFramework.Mqtt
 {
@@ -27,6 +29,15 @@ namespace TopicFramework.Mqtt
             });
             return serviceCollection;
         }
+
+        //public static IServiceCollection AddTfMqttBrokerService(this IServiceCollection serviceCollection, Action<MqttClientOptionsBuilder> action)
+        //{
+        //    serviceCollection.AddHostedService<MqttClientService>(p =>
+        //    {
+        //        new MqttClientService();
+        //    });
+        //    return serviceCollection;
+        //}
 
 
     }
