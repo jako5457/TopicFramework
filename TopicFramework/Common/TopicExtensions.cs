@@ -72,5 +72,42 @@ namespace TopicFramework.Common
             return message;
         }
 
+        /// <summary>
+        /// Overrides the topic
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="topicMessage">The message that have a ReturntTopic attached</param>
+        /// <returns></returns>
+        public static TopicMessage WithTopic(this TopicMessage message, TopicMessage topicMessage)
+        {
+            message.Topic = topicMessage.ReturnTopic;
+            return message;
+        }
+
+        /// <summary>
+        /// Overrides ReturnTopic
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="Topic">The topic to be set</param>
+        /// <returns></returns>
+        public static TopicMessage WithReturnTopic(this TopicMessage message, string Topic)
+        {
+            message.ReturnTopic = Topic;
+            return message;
+        }
+
+        public static bool HasReturnTopic(this TopicMessage message) {
+
+            if (message.ReturnTopic != string.Empty)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
     }
 }

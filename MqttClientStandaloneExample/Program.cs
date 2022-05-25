@@ -13,7 +13,7 @@ Console.WriteLine("Starting Mqtt broker.....");
 
 IConfiguration config = new ConfigurationBuilder()
                         .AddEnvironmentVariables()
-                        //.AddJsonFile("appsettings.json")
+                        .AddJsonFile("appsettings.json")
                         .AddUserSecrets<Program>()
                         .Build();
 

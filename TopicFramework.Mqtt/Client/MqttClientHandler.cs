@@ -30,7 +30,8 @@ namespace TopicFramework.Mqtt.Client
                 Topic = eventArgs.ApplicationMessage.Topic,
                 Payload = eventArgs.ApplicationMessage.ConvertPayloadToString(),
                 Qos = (int)eventArgs.ApplicationMessage.QualityOfServiceLevel,
-                PayloadContentType = eventArgs.ApplicationMessage.ContentType
+                PayloadContentType = eventArgs.ApplicationMessage.ContentType,
+                ReturnTopic = eventArgs.ApplicationMessage.ResponseTopic
             };
 
             if (MqttServiceSettings.DebugLog)

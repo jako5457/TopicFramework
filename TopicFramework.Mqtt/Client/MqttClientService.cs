@@ -53,7 +53,8 @@ namespace TopicFramework.Mqtt.Client
                 ContentType = e.PayloadContentType,
                 Payload = Encoding.UTF8.GetBytes(e.Payload),
                 Topic = e.Topic,
-                QualityOfServiceLevel = (MqttQualityOfServiceLevel)e.Qos
+                QualityOfServiceLevel = (MqttQualityOfServiceLevel)e.Qos,
+                ResponseTopic = e.ReturnTopic
             };
 
             await _Client.PublishAsync(message);

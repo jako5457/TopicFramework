@@ -50,7 +50,8 @@ namespace TopicFramework.Mqtt.Broker
             {
                 Payload = Encoding.UTF8.GetBytes(e.Payload),
                 Topic = e.Topic,
-                QualityOfServiceLevel = (MQTTnet.Protocol.MqttQualityOfServiceLevel)e.Qos
+                QualityOfServiceLevel = (MQTTnet.Protocol.MqttQualityOfServiceLevel)e.Qos,
+                ResponseTopic = e.ReturnTopic
             };
             await _Server.PublishAsync(message);
         }
