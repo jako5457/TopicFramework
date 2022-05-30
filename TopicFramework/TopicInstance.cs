@@ -174,5 +174,15 @@ namespace TopicFramework
         {
             return Events.Where(te => te.TopicName == TopicName).ToList();
         }
+
+        /// <summary>
+        /// Scans Assembly for TopicControllers and adds them to mapping
+        /// </summary>
+        /// <param name="assembly"></param>
+        public void AddAssemblyToMap(Assembly assembly)
+        {
+            Controllers.AddRange(TopicControllerMapper.Map(assembly));
+        }
+
     }
 }

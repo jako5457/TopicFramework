@@ -31,5 +31,18 @@ namespace MqttBrokerStandaloneExsample.TopicControllers
             await Instance.SendAsync(message);
             _Logger.LogInformation("Responded to message: " + Message.Payload);
         }
+
+        [TopicHandler("request")]
+        public async void HelloReturn()
+        {
+            if (Message.HasReturnTopic())
+            {
+                TopicMessage message = new TopicMessage()
+                                            .WithTopic(Message)
+                                            .WithPayload($"Recieved: {Message.Payload}");
+
+                await Instance.SendAsync(message);
+            }
+        }
     }
 }

@@ -56,5 +56,12 @@ namespace TopicFramework
 
             return application;
         }
+
+        public static IHost? UseTopicFrameworkAssembly(this IHost? host,Assembly assembly)
+        {
+            var instance = host.Services.GetRequiredService<TopicInstance>();
+            instance.AddAssemblyToMap(assembly);
+            return host;
+        }
     }
 }
