@@ -1,3 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+
 namespace Test
 {
     [TestClass]
@@ -38,6 +41,7 @@ namespace Test
         {
             string ExpectedMessage = "Hello";
             TopicInstance topicInstance = new TopicInstance();
+            topicInstance.Initialize(new ServiceCollection().BuildServiceProvider(),Assembly.GetCallingAssembly());
             
             Action<TopicMessage> e = (msg) => Assert.AreEqual(ExpectedMessage,msg.Payload);
 
