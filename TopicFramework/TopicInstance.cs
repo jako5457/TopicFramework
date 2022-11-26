@@ -9,6 +9,7 @@ using TopicFramework.Attributes;
 using TopicFramework.Common;
 using TopicFramework.Controllers;
 using TopicFramework.Events;
+using TopicFramework.Middleware;
 using TopicFramework.Parsing;
 
 namespace TopicFramework
@@ -69,12 +70,19 @@ namespace TopicFramework
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public Task ParseTopicAsync(TopicMessage message)
+        public async Task ParseTopicAsync(TopicMessage message)
         {
 
             if (_ServiceProvider == default!)
             {
                 throw new InvalidOperationException("Sevice not loaded. Use UseTopicFramework() to load");
+            }
+
+            //Executes the middleware
+            var middleware =  _ServiceProvider.GetService<TopicMiddlewareProvider>();
+            if (middleware != null) 
+            {
+                bool result = await middleware.ExecuteAsync(_ServiceProvider, message);
             }
 
             //Getting Relevant topicEvents
@@ -143,8 +151,6 @@ namespace TopicFramework
             {
                 topicEvent.Action.Invoke(message);
             }
-
-            return Task.CompletedTask;
         }
 
         /// <summary>

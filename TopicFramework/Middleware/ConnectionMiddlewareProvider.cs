@@ -9,7 +9,7 @@ using TopicFramework.Common;
 
 namespace TopicFramework.Middleware
 {
-    internal class ConnectionMiddlewareProvider
+    public class ConnectionMiddlewareProvider
     {
 
         List<Action<IServiceProvider,BreakerToken,ConnectionInfo>> _Actions = new();
@@ -18,7 +18,11 @@ namespace TopicFramework.Middleware
 
         public ConnectionMiddlewareProvider() { }
 
-        public void Add(Action<IServiceProvider, BreakerToken, ConnectionInfo> action) => _Actions.Add(action);
+        /// <summary>
+        /// Adds middleware to the middleware execution stack
+        /// </summary>
+        /// <param name="action">The action to be used</param>
+        public void Use(Action<IServiceProvider, BreakerToken, ConnectionInfo> action) => _Actions.Add(action);
 
         /// <summary>
         /// executes the middleware

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace TopicFramework.Middleware
 {
-    internal class TopicMiddlewareProvider
+    public class TopicMiddlewareProvider
     {
+        public TopicMiddlewareProvider() { }
+
+        private BreakerToken _BreakerToken = new BreakerToken();
+
+
     }
 }
