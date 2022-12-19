@@ -12,17 +12,22 @@ namespace TopicFramework.Middleware
     public class ConnectionMiddlewareProvider
     {
 
-        List<Action<IServiceProvider,BreakerToken,ConnectionInfo>> _Actions = new();
+        List<Action<IServiceProvider,BreakerToken,BrokerConnectionInfo>> _Actions = new();
 
         private BreakerToken _BreakerToken = new BreakerToken();
 
-        public ConnectionMiddlewareProvider() { }
+        public IServiceProvider ServiceProvider { get; private set; } 
+
+        public ConnectionMiddlewareProvider(IServiceProvider serviceProvider) 
+        {
+            ServiceProvider = serviceProvider;
+        }
 
         /// <summary>
         /// Adds middleware to the middleware execution stack
         /// </summary>
         /// <param name="action">The action to be used</param>
-        public void Use(Action<IServiceProvider, BreakerToken, ConnectionInfo> action) => _Actions.Add(action);
+        public void Use(Action<IServiceProvider, BreakerToken, BrokerConnectionInfo> action) => _Actions.Add(action);
 
         /// <summary>
         /// executes the middleware
@@ -30,7 +35,7 @@ namespace TopicFramework.Middleware
         /// <param name="serviceProvider">serviceProvide to be passed</param>
         /// <param name="connectionInfo">Cionnectioninfo to be passed</param>
         /// <returns>False if the circuit has broken</returns>
-        public Task<bool> ExecuteAsync(IServiceProvider serviceProvider,ConnectionInfo connectionInfo) 
+        public Task<bool> ExecuteAsync(IServiceProvider serviceProvider,BrokerConnectionInfo connectionInfo) 
         {
             foreach (var action in _Actions)
             {
