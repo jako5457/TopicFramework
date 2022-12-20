@@ -22,6 +22,7 @@ namespace TopicFramework.Mqtt
             serviceCollection.AddHostedService<MqttBrokerService>(p =>
             {
                 return new MqttBrokerService(
+                                p.GetRequiredService<IServiceProvider>(),
                                 p.GetRequiredService<ILogger<MqttBrokerService>>(),
                                 p.GetRequiredService<TopicInstance>(),
                                 p.GetRequiredService<MqttFactory>(), 

@@ -9,6 +9,12 @@ namespace TopicFramework.Middleware.Sasl
 {
     public static class SaslExtensions
     {
+        public static IServiceCollection AddTfSaslAuthentication(this IServiceCollection services,params SaslUser[] users)
+        {
+            services.AddSingleton<ISaslProvider,DefaultSaslProvider>(s => new DefaultSaslProvider(users));
+
+            return services;
+        }
 
         public static ConnectionMiddlewareProvider AddSimpleAuthentication(this ConnectionMiddlewareProvider provider)
         {

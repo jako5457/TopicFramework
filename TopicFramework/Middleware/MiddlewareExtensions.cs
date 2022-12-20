@@ -13,7 +13,7 @@ namespace TopicFramework.Middleware
         {
             services.AddTransient<ConnectionMiddlewareProvider>(i =>
             {
-                var p = new ConnectionMiddlewareProvider();
+                var p = new ConnectionMiddlewareProvider(i.GetRequiredService<IServiceProvider>());
                 action(p);
                 return p;
             });

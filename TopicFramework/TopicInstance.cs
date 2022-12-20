@@ -82,7 +82,7 @@ namespace TopicFramework
             var middleware =  _ServiceProvider.GetService<TopicMiddlewareProvider>();
             if (middleware != null) 
             {
-                bool result = await middleware.ExecuteAsync(_ServiceProvider, message);
+                //bool result = await middleware,ExecuteAsync(_ServiceProvider, message);
             }
 
             //Getting Relevant topicEvents

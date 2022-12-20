@@ -7,6 +7,8 @@ using MQTTnet;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using TopicFramework.Mqtt;
+using TopicFramework.Middleware;
+using TopicFramework.Middleware.Sasl;
 
 // See https://aka.ms/new-console-template for more information
 Console.WriteLine("Starting Mqtt broker.....");
@@ -35,6 +37,13 @@ hostBuilder.ConfigureServices(services =>
     {
         options.WithDefaultEndpointPort(1883);
     });
+
+    services.AddTfSaslAuthentication(SaslUser.Create("user", "password"));
+
+    services.AddTfConnectionMiddleware(middleware => {
+        middleware.AddSimpleAuthentication();
+    });
+
 });
 
 var app = hostBuilder.Build();

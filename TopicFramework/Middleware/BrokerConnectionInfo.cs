@@ -9,7 +9,7 @@ namespace TopicFramework.Middleware
 {
     public class BrokerConnectionInfo
     {
-        public IPAddress Address { get; set; }
+        public string ClientId { get; set; } = string.Empty;
         public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
 
         public string UserName = string.Empty;

@@ -8,6 +8,8 @@ using MQTTnet;
 using MQTTnet.Server;
 using MQTTnet.Formatter;
 using Microsoft.Extensions.Logging;
+using TopicFramework.Middleware;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TopicFramework.Mqtt.Broker
 {
@@ -20,14 +22,15 @@ namespace TopicFramework.Mqtt.Broker
         private readonly MqttFactory _MqttFactory;
         private readonly Action<MqttServerOptionsBuilder> _BuildAction;
         private readonly TopicInstance _TopicInstance;
-
-        public MqttBrokerService(ILogger<MqttBrokerService> logger,TopicInstance instance,MqttFactory factory,Action<MqttServerOptionsBuilder> BuildAction)
+        IServiceProvider _ServiceProvider;
+        public MqttBrokerService(IServiceProvider serviceProvider,ILogger<MqttBrokerService> logger,TopicInstance instance,MqttFactory factory,Action<MqttServerOptionsBuilder> BuildAction)
         {
             _Server = factory.CreateMqttServer();
             _MqttFactory = factory;
             _BuildAction = BuildAction;
             _Logger = logger;
             _TopicInstance = instance;
+            _ServiceProvider = serviceProvider;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -37,7 +40,16 @@ namespace TopicFramework.Mqtt.Broker
             _BuildAction(configbuilder);
 
             //define events
-            _Server.UseApplicationMessageReceivedHandler(new MqttBrokerHandler(_TopicInstance,_Logger));
+            var service = _ServiceProvider.GetService<ConnectionMiddlewareProvider>();
+            var handler = new MqttBrokerHandler(_TopicInstance, _Logger);
+            if (service != null)
+            {
+                handler = new MqttBrokerHandler(service,_TopicInstance, _Logger);
+            }
+
+            configbuilder.WithConnectionValidator(handler);
+            _Server.UseApplicationMessageReceivedHandler(handler);
+
             _TopicInstance.MessageOutEvent += _TopicInstance_MessageOutEvent;
 
             //Start
